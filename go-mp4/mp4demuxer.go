@@ -1,11 +1,11 @@
 package mp4
 
 import (
-    "encoding/binary"
-    "errors"
-    "io"
+	"encoding/binary"
+	"errors"
+	"io"
 
-    "github.com/yapingcat/gomedia/go-codec"
+	"github.com/yapingcat/gomedia/go-codec"
 )
 
 type AVPacket struct {
@@ -211,7 +211,11 @@ func (demuxer *MovDemuxer) ReadHead() ([]TrackInfo, error) {
     if !demuxer.isFragement {
         demuxer.buildSampleList()
     }
-    demuxer.readSampleIdx = make([]uint32, len(demuxer.tracks))
+
+	if (demuxer.readSampleIdx == nil) {
+		demuxer.readSampleIdx = make([]uint32, len(demuxer.tracks))
+	}
+    
     for _, track := range demuxer.tracks {
         info := TrackInfo{}
         info.Cid = track.cid
